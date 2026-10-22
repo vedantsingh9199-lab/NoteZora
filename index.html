@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#155eef">
+<title>NoteZora | MP Board Study Hub</title>
+<style>
+:root{--blue:#155eef;--navy:#101828;--muted:#667085;--bg:#f5f7fb;--card:#fff;--line:#e4e7ec;--green:#12b76a}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--navy)}button,input,select{font:inherit}button{cursor:pointer}
+header{background:linear-gradient(120deg,#123fa8,#2878ff);color:white;padding:20px max(18px,calc((100% - 1100px)/2)) 26px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:1100px;margin:auto}.brand{font-size:24px;font-weight:850;letter-spacing:-.7px}.brand span{color:#b9d4ff}.tag{font-size:12px;border:1px solid #ffffff66;padding:6px 10px;border-radius:999px}
+.hero{max-width:1100px;margin:28px auto 0}.hero h1{font-size:clamp(28px,5vw,42px);line-height:1.08;letter-spacing:-1px;margin:0 0 10px}.hero p{color:#e5edff;margin:0 0 20px}.search{display:flex;gap:8px;max-width:660px}.search input{width:100%;border:0;border-radius:12px;padding:14px 15px;outline:none}.search button,.primary{background:#101828;color:white;border:0;border-radius:11px;padding:12px 16px;font-weight:700}
+main{max-width:1100px;margin:24px auto;padding:0 16px 50px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:26px 0 14px}.section-head h2{font-size:21px;margin:0}.section-head p{margin:4px 0 0;color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.class-card,.panel,.material,.feature{background:var(--card);border:1px solid var(--line);border-radius:16px}.class-card{padding:17px;text-align:left;transition:.15s}.class-card:hover,.class-card.active{border-color:var(--blue);box-shadow:0 5px 18px #155eef12}.class-card .num{font-size:25px;font-weight:850;color:var(--blue)}.class-card strong{display:block;margin:4px 0}.class-card small{color:var(--muted)}
+.filters{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}.filters select,.filters input{border:1px solid var(--line);background:white;border-radius:10px;padding:10px 12px;color:var(--navy)}.filters input{flex:1;min-width:170px}
+.materials{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.material{padding:16px;display:flex;flex-direction:column;gap:10px}.pill{display:inline-flex;align-self:flex-start;background:#eff4ff;color:#1849a9;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:750}.material h3{font-size:16px;margin:0}.material p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}.material .meta{font-size:12px;color:var(--muted)}.material .actions{display:flex;gap:8px;margin-top:auto}.material a,.material button{border:1px solid var(--line);border-radius:9px;padding:9px 11px;text-decoration:none;color:var(--navy);background:white;font-size:13px;font-weight:700}.material .open{background:var(--blue);color:white;border-color:var(--blue)}
+.feature-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.feature{padding:18px}.emoji{font-size:24px}.feature h3{margin:10px 0 6px;font-size:16px}.feature p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+.panel{padding:18px;margin-top:18px}.panel h2{margin:0 0 8px;font-size:20px}.notice{background:#fffaeb;border:1px solid #fedf89;border-radius:12px;padding:12px;color:#854a0e;font-size:13px;line-height:1.5}
+.quiz-q{font-weight:750;margin:14px 0 10px}.answers{display:grid;gap:8px}.answers button{border:1px solid var(--line);background:white;text-align:left;border-radius:10px;padding:11px}.answers button.correct{border-color:var(--green);background:#ecfdf3}.answers button.wrong{border-color:#f04438;background:#fef3f2}.footer{text-align:center;color:var(--muted);font-size:12px;padding:22px}
+.admin-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.admin-form input,.admin-form select{min-width:0;width:100%;border:1px solid var(--line);border-radius:9px;padding:10px;background:white}.admin-form button{grid-column:1/-1}
+.empty{color:var(--muted);padding:18px;border:1px dashed #cbd5e1;border-radius:12px}
+@media(max-width:700px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.materials{grid-template-columns:1fr}.feature-grid{grid-template-columns:1fr}.top{align-items:flex-start}.tag{font-size:10px}.hero{margin-top:23px}.search{flex-direction:column}.search button{padding:12px}.admin-form{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="top"><div class="brand">Note<span>Zora</span></div><div class="tag">MP BOARD • CLASSES 5–12</div></div>
+  <div class="hero">
+    <h1>Your study journey,<br>made simpler.</h1>
+    <p>Notes, practice papers and quizzes — all in one place.</p>
+    <div class="search"><input id="globalSearch" placeholder="Search notes, subjects or papers..." aria-label="Search study material"><button id="searchBtn">Search</button></div>
+  </div>
+</header>
+<main>
+  <div class="section-head"><div><h2>Choose your class</h2><p>Select a class to filter study material.</p></div></div>
+  <div class="grid" id="classes"></div>
+  <div class="section-head"><div><h2 id="materialsTitle">Study materials</h2><p>Filter by subject or material type.</p></div></div>
+  <div class="filters">
+    <select id="subjectFilter" aria-label="Subject filter"><option value="">All subjects</option></select>
+    <select id="typeFilter" aria-label="Type filter"><option value="">All types</option><option>Notes</option><option>Sample Paper</option><option>Previous Year Paper</option><option>Solutions</option></select>
+    <input id="localSearch" placeholder="Search this list..." aria-label="Search this list">
+  </div>
+  <div class="materials" id="materials"></div>
+  <div class="section-head"><div><h2>Study smarter</h2><p>Useful tools for exam preparation.</p></div></div>
+  <div class="feature-grid">
+    <div class="feature"><div class="emoji">📘</div><h3>Chapter-wise Notes</h3><p>Organize revision material by class, subject and chapter.</p></div>
+    <div class="feature"><div class="emoji">📝</div><h3>Practice Papers</h3><p>Practice with sample papers and add verified past papers.</p></div>
+    <div class="feature"><div class="emoji">🎯</div><h3>Quick Quiz</h3><p>Try a short demo quiz and see your score instantly.</p></div>
+  </div>
+  <section class="panel" id="quiz">
+    <h2>Quick Science Quiz</h2><p style="color:var(--muted);margin-top:0">Demo question for practice.</p>
+    <div class="quiz-q">Which planet is known as the Red Planet?</div>
+    <div class="answers" id="answers">
+      <button data-correct="false">Venus</button><button data-correct="true">Mars</button><button data-correct="false">Jupiter</button><button data-correct="false">Mercury</button>
+    </div><p id="quizResult" aria-live="polite"></p>
+  </section>
+  <section class="panel">
+    <h2>Admin: add a material (this device only)</h2>
+    <p style="color:var(--muted);font-size:13px">Starter demo: entries are saved in this browser only. Do not use this form for private information. A real multi-user admin panel needs a secure backend and authentication.</p>
+    <div class="admin-form">
+      <select id="addClass"><option value="5">Class 5</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9">Class 9</option><option value="10">Class 10</option><option value="11">Class 11</option><option value="12">Class 12</option></select>
+      <input id="addSubject" placeholder="Subject (e.g. Science)">
+      <select id="addType"><option>Notes</option><option>Sample Paper</option><option>Previous Year Paper</option><option>Solutions</option></select>
+      <input id="addTitle" placeholder="Title / chapter name">
+      <input id="addUrl" placeholder="PDF URL (https://...)">
+      <button class="primary" id="addMaterial">Add material</button>
+    </div>
+    <p id="adminMessage" aria-live="polite"></p>
+  </section>
+  <div class="footer">© <span id="year"></span> NoteZora • Independent educational project. Verify syllabus and papers against official sources.</div>
+</main>
+<script>
+const seed = [
+ {id:1,cls:5,subject:"English",type:"Notes",title:"English Revision Notes",chapter:"Demo material",url:""},
+ {id:2,cls:6,subject:"Mathematics",type:"Notes",title:"Mathematics Basics",chapter:"Demo material",url:""},
+ {id:3,cls:7,subject:"Science",type:"Sample Paper",title:"Science Practice Paper",chapter:"Practice only",url:""},
+ {id:4,cls:8,subject:"Social Science",type:"Notes",title:"Social Science Revision",chapter:"Demo material",url:""},
+ {id:5,cls:9,subject:"Mathematics",type:"Sample Paper",title:"Mathematics Sample Paper",chapter:"Practice only",url:""},
+ {id:6,cls:10,subject:"Science",type:"Solutions",title:"Science Answer Practice",chapter:"Demo material",url:""},
+ {id:7,cls:11,subject:"Physics",type:"Notes",title:"Physics Study Notes",chapter:"Demo material",url:""},
+ {id:8,cls:12,subject:"English",type:"Sample Paper",title:"English Sample Paper",chapter:"Practice only",url:""}
+];
+let selectedClass = "";
+let extras = [];
+try { extras = JSON.parse(localStorage.getItem("notezoraExtras") || "[]"); } catch(e) {}
+const all = () => [...seed, ...extras];
+const $ = id => document.getElementById(id);
+function renderClasses(){
+  $("classes").innerHTML = Array.from({length:8},(_,i)=>i+5).map(n=>`<button class="class-card ${String(selectedClass)===String(n)?"active":""}" data-class="${n}"><span class="num">${n}</span><strong>Class ${n}</strong><small>MP Board • Study hub</small></button>`).join("");
+  document.querySelectorAll("[data-class]").forEach(b=>b.addEventListener("click",()=>{selectedClass=String(b.dataset.class)===selectedClass?"":b.dataset.class;renderClasses();renderSubjects();renderMaterials();}));
+}
+function renderSubjects(){
+  const old=$("subjectFilter").value;
+  const subjects=[...new Set(all().filter(x=>!selectedClass||String(x.cls)===selectedClass).map(x=>x.subject))].sort();
+  $("subjectFilter").innerHTML='<option value="">All subjects</option>'+subjects.map(s=>`<option>${escapeHtml(s)}</option>`).join("");
+  if(subjects.includes(old)) $("subjectFilter").value=old;
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function renderMaterials(){
+  const query=($("localSearch").value+" "+$("globalSearch").value).trim().toLowerCase();
+  const subject=$("subjectFilter").value,type=$("typeFilter").value;
+  const list=all().filter(x=>(!selectedClass||String(x.cls)===selectedClass)&&(!subject||x.subject===subject)&&(!type||x.type===type)&&(!query||[x.title,x.subject,x.type,x.chapter,String(x.cls)].join(" ").toLowerCase().includes(query)));
+  $("materialsTitle").textContent=selectedClass?`Class ${selectedClass} study materials`:"Study materials";
+  $("materials").innerHTML=list.length?list.map(x=>`<article class="material"><span class="pill">${escapeHtml(x.type)}</span><h3>${escapeHtml(x.title)}</h3><p>${escapeHtml(x.subject)} • Class ${x.cls}</p><div class="meta">${escapeHtml(x.chapter||"Study resource")}</div><div class="actions">${x.url?`<a class="open" href="${escapeHtml(x.url)}" target="_blank" rel="noopener">Open PDF ↗</a><a href="${escapeHtml(x.url)}" download>Download</a>`:`<button type="button" onclick="alert('Demo item only. Add a real PDF URL in the Admin section.')">View details</button>`}</div></article>`).join(""):'<div class="empty">No materials found. Try another class or filter, or add a material below.</div>';
+}
+$("searchBtn").addEventListener("click",renderMaterials);
+$("globalSearch").addEventListener("keydown",e=>{if(e.key==="Enter")renderMaterials()});
+$("localSearch").addEventListener("input",renderMaterials);
+$("subjectFilter").addEventListener("change",renderMaterials);
+$("typeFilter").addEventListener("change",renderMaterials);
+$("addMaterial").addEventListener("click",()=>{
+ const cls=Number($("addClass").value),subject=$("addSubject").value.trim(),type=$("addType").value,title=$("addTitle").value.trim(),url=$("addUrl").value.trim();
+ if(!subject||!title){$("adminMessage").textContent="Please enter a subject and title.";return}
+ if(url && !/^https:\/\/\S+/i.test(url)){$("adminMessage").textContent="Please enter a valid https:// PDF link.";return}
+ extras.push({id:Date.now(),cls,subject,type,title,chapter:"Added by admin demo",url});
+ try{localStorage.setItem("notezoraExtras",JSON.stringify(extras));}catch(e){}
+ $("addSubject").value="";$("addTitle").value="";$("addUrl").value="";
+ $("adminMessage").textContent="Added on this browser. It will not automatically appear on other devices.";
+ renderSubjects();renderMaterials();
+});
+$("answers").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;document.querySelectorAll("#answers button").forEach(x=>{x.disabled=true;if(x.dataset.correct==="true")x.classList.add("correct")});if(b.dataset.correct!=="true")b.classList.add("wrong");$("quizResult").textContent=b.dataset.correct==="true"?"Correct! Great work.":"Not quite — the correct answer is Mars.";});
+$("year").textContent=new Date().getFullYear();
+renderClasses();renderSubjects();renderMaterials();
+</script>
+</body>
+</html>
